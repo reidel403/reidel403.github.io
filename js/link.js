@@ -1,3 +1,4 @@
+    function urlP(sParametroNombre) { var sPaginaURL = window.location.search.substring(1); var sURLVariables = sPaginaURL.split('&'); for (var i = 0; i < sURLVariables.length; i++) { var sParametro = sURLVariables[i].split('='); if (sParametro[0] == sParametroNombre) { return sParametro[1]; } } return null; }
     function crear(){
         ps=false
         tools.innerHTML =""
@@ -24,12 +25,11 @@
         raw = "https://raw.githubusercontent.com/reidel403/db/main/"
         api = "https://api.github.com/repos/reidel403/db/contents/"
         imgs = "https://raw.githubusercontent.com/reidel403/db/main/fto/"
-        //raw = "assets/"
         cache = ''
         json = {}
         sha = ''
         clave=Math.floor(Math.random()*5000)+1000
-        page = localStorage.seller || "demo"
+        page = urlP("seller") || localStorage.seller || "demo"
         ps=true
         auth = generaId('###############')
         red(raw,'demos','GET',home)
