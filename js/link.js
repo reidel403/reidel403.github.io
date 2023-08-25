@@ -25,7 +25,7 @@
         raw = "https://raw.githubusercontent.com/reidel403/db/main/"
         api = "https://api.github.com/repos/reidel403/db/contents/"
         imgs = "https://raw.githubusercontent.com/reidel403/db/main/fto/"
-        cache = ''
+        cache = '?'+new Date().getTime()
         json = {}
         sha = ''
         clave=Math.floor(Math.random()*5000)+1000
@@ -68,7 +68,7 @@
                             json2 = JSON.parse(decodeURI(atob(response.content)))
                             sha=response.sha
                         }else{
-                            
+                            cache='?'+new Date().getTime()
                         }
                         callback()
                     })
@@ -189,7 +189,19 @@ json={
             ps=true
             localStorage.seller = json.id
             offer = ''
-            tools.innerHTML =''
+if(!localStorage.sc){localStorage.sc=JSON.stringify({})}
+            sc=JSON.parse(localStorage.sc)
+            sc[json.id]=json.name
+            localStorage.sc=JSON.stringify(sc)
+
+    main=``
+    for(var e in sc){
+        main+=`
+        <div onclick="red(raw,'${e}','GET',home)" class="li">${sc[e]}</div>
+        `
+    }
+
+    tools.innerHTML =''
             json.offer.forEach((p,n)=>{
                 offer+=`
                 <div style="width:${ancho(140)}px" onclick="deta(${n})" class="offer">
@@ -209,7 +221,7 @@ json={
                         <h3>
                         <a href="tel:${json.phone}">${phonei}</a>
                         <a href="https://api.whatsapp.com/send?phone=+53${json.phone}&text=Hola de su catálogo me interesa ">${whatsapp}</a>
-                        ${stock+mapa}
+                        <a onclick="nota(main)">${stock+mapa}</a>
                         </h3>
                     </div>
                     <img src="${makeQr({text:`https://${drive.web}?seller=${json.id}`,style:1,tag:' '})}" alt="">
